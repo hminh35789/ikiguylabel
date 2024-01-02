@@ -18,8 +18,8 @@ const LoginForm = () => {
             formState: {errors}
            } =  useForm<FieldValues>({
             defaultValues: {
-                email: '',
-                password: ''
+               email: '',
+               password: ''
             }
            })
     const onSubmit:SubmitHandler<FieldValues> = (data) => {
