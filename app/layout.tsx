@@ -6,18 +6,20 @@ import Footer from './components/footer/footer'
 import CartProvider from '@/providers/CartProvider'
 import { Toaster } from 'react-hot-toast'
 
+
 const poppins = Poppins({ subsets: ['latin'], weight: ['400','700'] })
 
 export const metadata: Metadata = {
   title: 'Ikiguy',
-  description: 'product made in vietnam',
+  description: 'Product made in vietnam',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="en">
       <body className={`${poppins.className} text-slate-700`}>
