@@ -2,7 +2,7 @@
 
 import { useCart } from '@/hooks/useCart';
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdArrowBack } from 'react-icons/md';
 import Heading from '../components/Heading';
 import Button from '../components/Button';
@@ -12,7 +12,20 @@ import { formatPrice } from '@/utils/formatPrice';
 
 const  CartClient = () => {
     const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
+    const [coupon, setCoupon] = useState(false);
+    const [value, setValue] = useState('');
+    const [valueD, setDValue] = useState(Number);
 
+   useEffect(() => {
+    if(value ==='hello') {
+        setCoupon(true)
+        setDValue(50)
+    }
+    else{
+        return setCoupon(false), setDValue(0)
+    }
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [value])
     if( !cartProducts || cartProducts.length === 0) {
         return(
             <div className='flex flex-col items-center'>
@@ -29,6 +42,8 @@ const  CartClient = () => {
             </div>
         )
     }
+
+    
   return (
     <div >
         <Heading title='Shopping Cart' center />
@@ -81,14 +96,26 @@ const  CartClient = () => {
                     text-base font-semibold
                     '>
                         <span>Coupon</span>
-                        <span>$50</span>
+                        {/* <span>$50</span> */}
+                        <input className='w-1/2 text-right' type="text"
+                            value={value}
+                            onChange={e => { setValue(e.currentTarget.value);
+                           
+                         }} />
                  </div>
+
+                 { coupon && <div className='flex justify-between w-full
+                    text-base font-semibold text-red-600
+                    '>
+                        <span className=''>Discount</span>
+                        <span>-50</span>
+                 </div>}
 
                 <div className='flex justify-between w-full
                 text-base font-semibold
                 '>
                     <span>Subtotal</span>
-                    <span>{formatPrice(cartTotalAmount - cartTotalAmount*(0.1))}</span>
+                    <span>{formatPrice(cartTotalAmount - valueD)}</span>
                 </div>
                 <p className='text-slate-500'>Taxes and shipping calculate at checkout</p>
                 <Button 
