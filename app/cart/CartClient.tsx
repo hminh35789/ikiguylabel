@@ -8,14 +8,23 @@ import Heading from '../components/Heading';
 import Button from '../components/Button';
 import ItemContent from './ItemContent';
 import { formatPrice } from '@/utils/formatPrice';
+import { SafeUser } from '@/types';
+import { useRouter } from 'next/navigation';
 
 
-const  CartClient = () => {
+interface CartClientProps{
+    currentUser: SafeUser | null;
+}
+
+const  CartClient: React.FC<CartClientProps> = ({currentUser}) => {
     const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
     const [coupon, setCoupon] = useState(false);
     const [value, setValue] = useState('');
     const [valueD, setDValue] = useState(Number);
 
+    const router = useRouter();
+
+   
    useEffect(() => {
     if(value ==='hello') {
         setCoupon(true)
@@ -119,9 +128,12 @@ const  CartClient = () => {
                 </div>
                 <p className='text-slate-500'>Taxes and shipping calculate at checkout</p>
                 <Button 
-                disabled={false} 
-                label='Check out' 
-                onClick={() => {}} 
+                    disabled={false} 
+                    label={currentUser ? 'Checkout' : 'Login to checkout'}
+                    outline={ currentUser ? false : true}
+                    onClick={() => { 
+                        currentUser ? router.push('/checkout') : router.push('/login') 
+                        }} 
                 />
                 <Link href={"/"} className='
                         text-slate-500 flex items-center
